@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ДЫРОКОЛ</title>
+<title>ДЫРОКОЛ v2.0</title>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TRP1QX4878"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-TRP1QX4878');</script>
 <style>
@@ -26,7 +26,8 @@ body{
 
 #game-wrapper{display:flex;gap:20px;align-items:flex-start;}
 
-#left-panel,#right-panel{display:flex;flex-direction:column;gap:12px;width:150px;}
+#left-panel{display:flex;flex-direction:column;gap:12px;width:150px;}
+#right-panel{display:flex;flex-direction:column;gap:12px;width:180px;}
 
 .panel-box{background:var(--panel-bg);border:2px solid var(--panel-border);border-radius:8px;padding:10px 12px;}
 .panel-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-sec);margin-bottom:4px;}
@@ -69,6 +70,66 @@ h1{font-family:'Orbitron',sans-serif;font-weight:900;font-size:24px;letter-spaci
 
 #game-canvas{border:3px solid #bbb;border-radius:4px;box-shadow:0 2px 12px rgba(0,0,0,.1);display:block;}
 
+/* ===== START SCREEN ===== */
+#start-screen{
+  display:flex;position:absolute;top:0;left:0;width:100%;height:100%;
+  background:rgba(255,255,255,.96);z-index:250;
+  flex-direction:column;justify-content:center;align-items:center;
+  border-radius:4px;text-align:center;padding:20px;
+}
+#start-screen.hidden{display:none;}
+.start-title{font-family:'Orbitron',sans-serif;font-weight:900;font-size:28px;color:var(--accent);letter-spacing:3px;margin-bottom:8px;}
+.start-subtitle{font-size:11px;color:var(--text-sec);letter-spacing:2px;margin-bottom:24px;text-transform:uppercase;}
+
+.start-section{margin-bottom:20px;}
+.start-label{font-size:11px;font-weight:700;color:var(--text-sec);letter-spacing:1px;margin-bottom:8px;text-transform:uppercase;}
+
+.nick-box{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;}
+.nick-display-start{
+  font-family:'Orbitron',sans-serif;font-size:16px;font-weight:700;
+  padding:8px 16px;border:2px solid var(--panel-border);border-radius:6px;
+  background:#fff;color:var(--text);min-width:160px;text-align:center;
+}
+.nick-reroll-btn{
+  font-size:18px;padding:6px 12px;border:2px solid var(--panel-border);border-radius:6px;
+  background:var(--grid-bg);cursor:pointer;transition:all .15s;
+}
+.nick-reroll-btn:hover{border-color:#999;background:#e8e8ec;}
+
+.nick-input-row{display:flex;gap:6px;align-items:center;justify-content:center;margin-top:10px;}
+.nick-input{
+  font-family:'Share Tech Mono',monospace;font-size:13px;
+  padding:6px 10px;border:2px solid var(--panel-border);border-radius:5px;
+  background:#fff;color:var(--text);width:180px;text-align:center;outline:none;
+}
+.nick-input:focus{border-color:#336;}
+.nick-input::placeholder{color:#bbb;}
+.nick-check-btn{
+  font-family:'Orbitron',sans-serif;font-weight:700;font-size:10px;
+  padding:7px 10px;border:2px solid var(--warn);border-radius:5px;
+  background:var(--warn);color:#fff;cursor:pointer;letter-spacing:1px;transition:all .15s;
+}
+.nick-check-btn:hover{background:#a06800;}
+.nick-status{font-size:10px;color:var(--accent);margin-top:6px;min-height:14px;}
+
+.width-selector-start{display:flex;gap:6px;justify-content:center;}
+.width-btn-start{
+  font-family:'Orbitron',sans-serif;font-weight:700;font-size:16px;
+  width:50px;height:50px;border:2px solid var(--panel-border);border-radius:8px;
+  background:var(--grid-bg);color:var(--text-sec);cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;justify-content:center;
+}
+.width-btn-start:hover{border-color:#999;color:var(--text);}
+.width-btn-start.active{border-color:var(--accent);color:#fff;background:var(--accent);}
+
+#start-btn{
+  font-family:'Orbitron',sans-serif;font-weight:700;font-size:16px;
+  padding:14px 48px;border:2px solid #1e5eaa;border-radius:8px;
+  background:#1e5eaa;color:#fff;cursor:pointer;letter-spacing:3px;transition:all .15s;
+  margin-top:10px;
+}
+#start-btn:hover{background:#164a88;}
+
 /* ===== GAME OVER ===== */
 #game-over{
   display:none;position:absolute;top:0;left:0;width:100%;height:100%;
@@ -82,28 +143,9 @@ h1{font-family:'Orbitron',sans-serif;font-weight:900;font-size:24px;letter-spaci
 .go-label{font-size:11px;color:var(--text-sec);letter-spacing:1px;margin-bottom:16px;}
 .go-details{font-size:12px;color:var(--text);line-height:1.8;margin-bottom:16px;}
 .go-details span{display:inline-block;margin:0 8px;}
-
-/* Nickname generator */
-.nick-row{display:flex;gap:6px;align-items:center;margin-bottom:16px;flex-wrap:wrap;justify-content:center;}
-.nick-display{
-  font-family:'Orbitron',sans-serif;font-size:14px;font-weight:700;
-  padding:6px 12px;border:2px solid var(--panel-border);border-radius:5px;
-  background:#fff;color:var(--text);min-width:130px;text-align:center;
-}
-.nick-reroll-btn{
-  font-size:16px;padding:5px 10px;border:2px solid var(--panel-border);border-radius:5px;
-  background:var(--grid-bg);cursor:pointer;transition:all .15s;
-}
-.nick-reroll-btn:hover{border-color:#999;background:#e8e8ec;}
-.submit-score-btn{
-  font-family:'Orbitron',sans-serif;font-weight:700;font-size:10px;
-  padding:7px 12px;border:2px solid var(--good);border-radius:5px;
-  background:var(--good);color:#fff;cursor:pointer;letter-spacing:1px;
-  transition:all .15s;white-space:nowrap;
-}
-.submit-score-btn:hover{background:#157a3e;}
-.submit-score-btn:disabled{opacity:.4;cursor:default;}
-.submit-status{font-size:10px;color:var(--good);margin-bottom:12px;min-height:16px;}
+.go-nick{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.go-record{font-size:12px;color:var(--good);margin-bottom:16px;min-height:18px;}
+.go-record.new-record{color:var(--accent);font-weight:700;}
 
 #restart-btn{
   font-family:'Orbitron',sans-serif;font-weight:700;font-size:12px;
@@ -130,6 +172,15 @@ h1{font-family:'Orbitron',sans-serif;font-weight:900;font-size:24px;letter-spaci
 .row-flash.penalty-flash{background:rgba(196,24,48,.25);animation:flashFade .8s ease-out forwards;}
 @keyframes flashFade{0%{opacity:1;}100%{opacity:0;}}
 
+.uncloned-logo{
+  position:fixed;bottom:8px;right:8px;
+  font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;
+  color:#c41830;text-decoration:none;opacity:0.8;
+  transition:opacity .2s;z-index:999;
+  background:rgba(255,255,255,0.9);padding:4px 8px;border-radius:4px;
+}
+.uncloned-logo:hover{opacity:1;}
+
 .controls{font-size:11px;color:var(--text-sec);line-height:1.8;}
 .controls kbd{display:inline-block;padding:1px 5px;border:2px solid #ccc;border-radius:3px;font-size:10px;font-weight:700;color:var(--text);background:#fff;min-width:20px;text-align:center;}
 
@@ -142,6 +193,7 @@ h1{font-family:'Orbitron',sans-serif;font-weight:900;font-size:24px;letter-spaci
 /* ===== LEADERBOARD ===== */
 .lb-title{font-family:'Orbitron',sans-serif;font-weight:700;font-size:11px;color:var(--text);letter-spacing:1px;margin-bottom:6px;}
 .lb-period{font-size:9px;color:var(--text-sec);margin-bottom:8px;}
+.lb-width-info{font-size:9px;color:var(--warn);margin-bottom:6px;font-weight:700;}
 .lb-list{display:flex;flex-direction:column;gap:8px;}
 .lb-entry{display:grid;grid-template-columns:22px 1fr;gap:2px 6px;padding:4px 0;border-bottom:1px solid #ebebf0;}
 .lb-entry:last-child{border-bottom:none;}
@@ -175,6 +227,7 @@ h1{font-family:'Orbitron',sans-serif;font-weight:900;font-size:24px;letter-spaci
       <h1 id="title-1">ДЫРО</h1>
       <h1 id="title-2">КОЛ</h1>
       <div class="subtitle" id="t-subtitle">создавай хаос</div>
+      <div style="font-size:9px;color:var(--text-sec);opacity:0.5;text-align:center;margin-top:2px;">v2.0</div>
     </div>
     <div class="panel-box">
       <div class="panel-label" id="t-next">Следующая</div>
@@ -188,14 +241,6 @@ h1{font-family:'Orbitron',sans-serif;font-weight:900;font-size:24px;letter-spaci
         <button class="lang-btn" data-lang="ja" title="日本語"><svg width="24" height="16" viewBox="0 0 24 16"><rect width="24" height="16" fill="#fff"/><circle cx="12" cy="8" r="4.8" fill="#BC002D"/></svg></button>
         <button class="lang-btn" data-lang="de" title="Deutsch"><svg width="24" height="16" viewBox="0 0 24 16"><rect width="24" height="5.33" fill="#000"/><rect y="5.33" width="24" height="5.34" fill="#DD0000"/><rect y="10.67" width="24" height="5.33" fill="#FFCC00"/></svg></button>
         <button class="lang-btn" data-lang="fr" title="Français"><svg width="24" height="16" viewBox="0 0 24 16"><rect width="8" height="16" fill="#002395"/><rect x="8" width="8" height="16" fill="#fff"/><rect x="16" width="8" height="16" fill="#ED2939"/></svg></button>
-      </div>
-    </div>
-    <div class="panel-box">
-      <div class="panel-label" id="t-width">Ширина</div>
-      <div class="width-selector">
-        <button class="width-btn" data-w="6">6</button>
-        <button class="width-btn active" data-w="7">7</button>
-        <button class="width-btn" data-w="8">8</button>
       </div>
     </div>
     <div class="panel-box">
@@ -213,8 +258,42 @@ h1{font-family:'Orbitron',sans-serif;font-weight:900;font-size:24px;letter-spaci
 
   <div style="position:relative;">
     <canvas id="game-canvas"></canvas>
+    
+    <!-- START SCREEN -->
+    <div id="start-screen">
+      <div class="start-title" id="t-start-title">ДЫРОКОЛ</div>
+      <div class="start-subtitle" id="t-start-sub">создавай хаос</div>
+      <div style="font-size:9px;color:var(--text-sec);opacity:0.5;text-align:center;">v2.0</div>
+      
+      <div class="start-section">
+        <div class="start-label" id="t-your-nick">Твой ник</div>
+        <div class="nick-box">
+          <div class="nick-display-start" id="nick-display-start">???</div>
+          <button class="nick-reroll-btn" id="nick-reroll-start" title="🎲">🎲</button>
+        </div>
+        <div class="nick-input-row">
+          <input type="text" class="nick-input" id="nick-input" placeholder="Или введи свой...">
+          <button class="nick-check-btn" id="nick-check-btn">✓</button>
+        </div>
+        <div class="nick-status" id="nick-status"></div>
+      </div>
+      
+      <div class="start-section">
+        <div class="start-label" id="t-choose-width">Ширина поля</div>
+        <div class="width-selector-start">
+          <button class="width-btn-start" data-w="6">6</button>
+          <button class="width-btn-start active" data-w="7">7</button>
+          <button class="width-btn-start" data-w="8">8</button>
+        </div>
+      </div>
+      
+      <button id="start-btn">ИГРАТЬ</button>
+    </div>
+    
+    <!-- GAME OVER -->
     <div id="game-over">
       <div class="go-title" id="t-gameover">ИГРА ОКОНЧЕНА</div>
+      <div class="go-nick" id="go-nick">???</div>
       <div class="go-score" id="go-total">0</div>
       <div class="go-label" id="t-total-label">ИТОГО</div>
       <div class="go-details">
@@ -222,14 +301,21 @@ h1{font-family:'Orbitron',sans-serif;font-weight:900;font-size:24px;letter-spaci
         <span style="color:var(--accent)"><span id="t-go-penalty">Штрафы</span>: <b id="go-penalty">0</b></span>
         <span style="color:var(--warn)"><span id="t-go-pieces">Фигур</span>: <b id="go-pieces">0</b></span>
       </div>
-      <div class="nick-row">
-        <div class="nick-display" id="nick-display">???</div>
-        <button class="nick-reroll-btn" id="nick-reroll" title="🎲">🎲</button>
-        <button class="submit-score-btn" id="submit-score-btn"><span id="t-submit">ОТПРАВИТЬ</span></button>
-      </div>
-      <div class="submit-status" id="submit-status"></div>
+      <div class="go-record" id="go-record"></div>
       <button id="restart-btn">ЗАНОВО</button>
+      <button onclick="shareResultDyrokol()" style="margin-top:6px;padding:8px 20px;border-radius:8px;border:none;cursor:pointer;background:rgba(255,255,255,0.12);color:#aaa;font-size:13px;font-family:inherit;">📤 Share</button>
+      <div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.1);font-size:11px;">
+        <div style="color:rgba(255,255,255,0.4);text-transform:uppercase;margin-bottom:6px;">More games</div>
+        <div style="display:flex;flex-wrap:wrap;gap:5px;justify-content:center;">
+          <a href="https://constrik.itch.io/rooms" target="_blank" style="color:#aaa;text-decoration:none;padding:3px 8px;background:rgba(255,255,255,0.08);border-radius:4px;">🏠 Rooms</a>
+          <a href="https://constrik.itch.io/open-office" target="_blank" style="color:#aaa;text-decoration:none;padding:3px 8px;background:rgba(255,255,255,0.08);border-radius:4px;">🏢 Open Office</a>
+          <a href="https://constrik.itch.io/neighbors" target="_blank" style="color:#aaa;text-decoration:none;padding:3px 8px;background:rgba(255,255,255,0.08);border-radius:4px;">🏘 Neighbors</a>
+          <a href="https://constrik.itch.io/ball-rush-league" target="_blank" style="color:#aaa;text-decoration:none;padding:3px 8px;background:rgba(255,255,255,0.08);border-radius:4px;">⚽ Ball Rush</a>
+          <a href="https://constrik.itch.io" target="_blank" style="color:#aaa;text-decoration:none;padding:3px 8px;background:rgba(255,255,255,0.08);border-radius:4px;">🎮 All Games</a>
+        </div>
+      </div>
     </div>
+    
     <div id="pause-overlay"><span id="t-paused">ПАУЗА</span></div>
   </div>
 
@@ -257,6 +343,7 @@ h1{font-family:'Orbitron',sans-serif;font-weight:900;font-size:24px;letter-spaci
     <div class="panel-box" id="lb-box">
       <div class="lb-title" id="t-lb-title">🏆 ТОП НЕДЕЛИ</div>
       <div class="lb-period" id="lb-period"></div>
+      <div class="lb-width-info" id="lb-width-info">Ширина: 7</div>
       <div id="lb-content"><div class="lb-empty" id="t-lb-empty">Загрузка...</div></div>
     </div>
 
@@ -279,21 +366,15 @@ h1{font-family:'Orbitron',sans-serif;font-weight:900;font-size:24px;letter-spaci
   <button class="touch-btn drop-btn" id="btn-drop">DROP</button>
 </div>
 
+<a href="https://uncloned-math.netlify.app" target="_blank" class="uncloned-logo">Uncloned Math • v1.6</a>
+
 <!-- ===== FIREBASE SDK ===== -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <script>
 // ╔══════════════════════════════════════════════════════╗
-// ║  FIREBASE CONFIG — ВСТАВЬ СВОИ ДАННЫЕ СЮДА          ║
-// ╠══════════════════════════════════════════════════════╣
-// ║  1. https://console.firebase.google.com              ║
-// ║  2. Create Project → "dyrokol"                       ║
-// ║  3. Build → Realtime Database → Create Database      ║
-// ║     → Start in TEST MODE                             ║
-// ║  4. Project Settings → Your apps → Web (</>)         ║
-// ║     → Register app → Copy config                     ║
-// ║  5. Вставь значения ниже                             ║
+// ║  FIREBASE CONFIG                                      ║
 // ╚══════════════════════════════════════════════════════╝
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyA-dXCBeljE765qfaOBRtUlXLHBl26Y1tU",
@@ -327,65 +408,75 @@ function initFirebase() {
 initFirebase();
 
 // ===== WEEK KEY =====
-function getWeekKey() {
+function getLast7DaysLabel() {
   const now = new Date();
-  const jan1 = new Date(now.getFullYear(), 0, 1);
-  const days = Math.floor((now - jan1) / 86400000);
-  const week = Math.ceil((days + jan1.getDay() + 1) / 7);
-  return now.getFullYear() + '-W' + String(week).padStart(2, '0');
-}
-
-function getWeekDates() {
-  const now = new Date();
-  const day = now.getDay();
-  const mon = new Date(now);
-  mon.setDate(now.getDate() - (day === 0 ? 6 : day - 1));
-  const sun = new Date(mon);
-  sun.setDate(mon.getDate() + 6);
+  const ago = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
   const fmt = d => d.getDate() + '.' + (d.getMonth()+1);
-  return fmt(mon) + ' – ' + fmt(sun);
+  return fmt(ago) + ' – ' + fmt(now);
 }
 
-// ===== SUBMIT SCORE =====
+// ===== SUBMIT SCORE (only if beats record) =====
 async function submitScore(nick, totalScore, w) {
-  if (!firebaseOk || !db) return false;
-  const weekKey = getWeekKey();
-  const entry = {
-    nick: nick.substring(0, 12),
-    score: totalScore,
-    width: w,
-    ts: Date.now()
-  };
+  if (!firebaseOk || !db) return { success: false, isNewRecord: false };
+  
   try {
-    await db.ref('leaderboard/' + weekKey).push(entry);
-    return true;
+    // Check existing best in last 7 days for this nick+width
+    const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+    const snap = await db.ref('leaderboard/scores/w' + w).orderByChild('ts').startAt(sevenDaysAgo).once('value');
+    let existingBest = 0;
+    snap.forEach(child => {
+      const e = child.val();
+      if (e.nick === nick && e.score > existingBest) existingBest = e.score;
+    });
+    
+    if (existingBest >= totalScore) {
+      return { success: true, isNewRecord: false, oldScore: existingBest };
+    }
+    
+    // New record! Push it
+    await db.ref('leaderboard/scores/w' + w).push().set({
+      nick: nick,
+      score: totalScore,
+      ts: Date.now()
+    });
+    
+    return { success: true, isNewRecord: true, oldScore: existingBest };
   } catch(e) {
     console.warn('Submit failed:', e);
-    return false;
+    return { success: false, isNewRecord: false };
   }
 }
 
-// ===== LOAD LEADERBOARD =====
-async function loadLeaderboard() {
-  const weekKey = getWeekKey();
-  document.getElementById('lb-period').textContent = getWeekDates();
+// ===== LOAD LEADERBOARD (per width, sliding 7 days) =====
+async function loadLeaderboard(w) {
+  document.getElementById('lb-period').textContent = getLast7DaysLabel();
+  
+  const L = LANG[currentLang];
+  document.getElementById('lb-width-info').textContent = (L.lbWidth || 'Ширина') + ': ' + w;
 
   if (!firebaseOk || !db) {
-    showLeaderboardLocal();
+    showLeaderboardLocal(w);
     return;
   }
 
   try {
-    const snap = await db.ref('leaderboard/' + weekKey).orderByChild('score').limitToLast(10).once('value');
-    const entries = [];
+    const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+    const snap = await db.ref('leaderboard/scores/w' + w).orderByChild('ts').startAt(sevenDaysAgo).once('value');
+    // Group by nick, keep best score
+    const best = {};
     snap.forEach(child => {
-      entries.push(child.val());
+      const e = child.val();
+      if (!e.nick) return;
+      if (!best[e.nick] || e.score > best[e.nick].score) {
+        best[e.nick] = e;
+      }
     });
+    const entries = Object.values(best);
     entries.sort((a, b) => b.score - a.score);
-    renderLeaderboard(entries);
+    renderLeaderboard(entries.slice(0, 10));
   } catch(e) {
     console.warn('Load LB failed:', e);
-    showLeaderboardLocal();
+    showLeaderboardLocal(w);
   }
 }
 
@@ -409,10 +500,9 @@ function renderLeaderboard(entries) {
   container.innerHTML = html;
 }
 
-function showLeaderboardLocal() {
+function showLeaderboardLocal(w) {
   const container = document.getElementById('lb-content');
-  // Show local scores from localStorage
-  const local = JSON.parse(localStorage.getItem('dyrokol_scores') || '[]');
+  const local = JSON.parse(localStorage.getItem('dyrokol_scores_w' + w) || '[]');
   const L = LANG[currentLang];
   if (local.length === 0) {
     container.innerHTML = '<div class="lb-empty">' + (L.lbEmpty || 'Пока пусто') + '</div>';
@@ -429,11 +519,26 @@ function showLeaderboardLocal() {
 }
 
 function saveLocalScore(nick, totalScore, w) {
-  const local = JSON.parse(localStorage.getItem('dyrokol_scores') || '[]');
-  local.push({ nick, score: totalScore, width: w, ts: Date.now() });
-  // Keep last 50
-  if (local.length > 50) local.splice(0, local.length - 50);
-  localStorage.setItem('dyrokol_scores', JSON.stringify(local));
+  const key = 'dyrokol_scores_w' + w;
+  const local = JSON.parse(localStorage.getItem(key) || '[]');
+  
+  // Find existing entry for this nick
+  const idx = local.findIndex(e => e.nick === nick);
+  if (idx >= 0) {
+    if (local[idx].score >= totalScore) {
+      return { isNewRecord: false, oldScore: local[idx].score };
+    }
+    local[idx].score = totalScore;
+    local[idx].ts = Date.now();
+  } else {
+    local.push({ nick, score: totalScore, ts: Date.now() });
+  }
+  
+  // Keep top 50
+  local.sort((a, b) => b.score - a.score);
+  if (local.length > 50) local.length = 50;
+  localStorage.setItem(key, JSON.stringify(local));
+  return { isNewRecord: true, oldScore: idx >= 0 ? local[idx].score : 0 };
 }
 
 function escHtml(s) {
@@ -446,14 +551,16 @@ const LANG = {
     title1:'HOLE', title2:'PUNCHER', subtitle:'create chaos',
     next:'Next', lang:'Language', width:'Width', level:'Level',
     move:'move', rotate:'rotate', accel:'faster', drop:'drop', pauseHint:'pause',
-    gameover:'GAME OVER', totalLabel:'TOTAL', restart:'RESTART',
+    gameover:'GAME OVER', totalLabel:'TOTAL', restart:'AGAIN',
     score:'Score', penalty:'Penalty', pieces:'Pieces', total:'Total',
     goScore:'Score', goPenalty:'Penalty', goPieces:'Pieces',
-    scoring:'Scoring', submit:'SUBMIT', nickPh:'Nick',
+    scoring:'Scoring', 
     s1:'1 hole → ×5', s2:'2 holes → ×3', s3:'3 holes → ×2', s4:'4+ → ×1', s5:'0 holes → −50 💥',
-    paused:'PAUSED', lbTitle:'🏆 TOP OF THE WEEK', lbEmpty:'No scores yet',
+    paused:'PAUSED', lbTitle:'🏆 TOP OF THE WEEK', lbEmpty:'No scores yet', lbWidth:'Width',
     lbOffline:'Firebase not configured', lbLocal:'Local scores',
-    submitted:'Submitted!', submitFail:'Error, saved locally'
+    startTitle:'HOLE PUNCHER', startSub:'create chaos', yourNick:'Your nickname',
+    chooseWidth:'Field width', play:'PLAY', orEnter:'Or enter yours...',
+    nickInvalid:'Invalid nickname', nickOk:'✓', newRecord:'🎉 NEW RECORD!', noRecord:'Your best stays'
   },
   ru: {
     title1:'ДЫРО', title2:'КОЛ', subtitle:'создавай хаос',
@@ -462,11 +569,13 @@ const LANG = {
     gameover:'ИГРА ОКОНЧЕНА', totalLabel:'ИТОГО', restart:'ЗАНОВО',
     score:'Очки', penalty:'Штрафы', pieces:'Фигур', total:'Итого',
     goScore:'Очки', goPenalty:'Штрафы', goPieces:'Фигур',
-    scoring:'Скоринг', submit:'ОТПРАВИТЬ', nickPh:'Ник',
+    scoring:'Скоринг',
     s1:'1 дырка → ×5', s2:'2 дырки → ×3', s3:'3 дырки → ×2', s4:'4+ → ×1', s5:'0 дырок → −50 💥',
-    paused:'ПАУЗА', lbTitle:'🏆 ТОП НЕДЕЛИ', lbEmpty:'Пока пусто',
+    paused:'ПАУЗА', lbTitle:'🏆 ТОП НЕДЕЛИ', lbEmpty:'Пока пусто', lbWidth:'Ширина',
     lbOffline:'Firebase не настроен', lbLocal:'Локальные результаты',
-    submitted:'Отправлено!', submitFail:'Ошибка, сохранено локально'
+    startTitle:'ДЫРОКОЛ', startSub:'создавай хаос', yourNick:'Твой ник',
+    chooseWidth:'Ширина поля', play:'ИГРАТЬ', orEnter:'Или введи свой...',
+    nickInvalid:'Неверный ник', nickOk:'✓', newRecord:'🎉 НОВЫЙ РЕКОРД!', noRecord:'Твой лучший остаётся'
   },
   ja: {
     title1:'パン', title2:'チャー', subtitle:'カオスを作れ',
@@ -475,11 +584,13 @@ const LANG = {
     gameover:'ゲームオーバー', totalLabel:'合計', restart:'リスタート',
     score:'得点', penalty:'ペナルティ', pieces:'ピース', total:'合計',
     goScore:'得点', goPenalty:'ペナルティ', goPieces:'ピース',
-    scoring:'スコア', submit:'送信', nickPh:'ニックネーム',
+    scoring:'スコア',
     s1:'1穴 → ×5', s2:'2穴 → ×3', s3:'3穴 → ×2', s4:'4+ → ×1', s5:'0穴 → −50 💥',
-    paused:'一時停止', lbTitle:'🏆 今週のトップ', lbEmpty:'まだスコアなし',
+    paused:'一時停止', lbTitle:'🏆 今週のトップ', lbEmpty:'まだスコアなし', lbWidth:'幅',
     lbOffline:'Firebase未設定', lbLocal:'ローカルスコア',
-    submitted:'送信済み!', submitFail:'エラー、ローカルに保存'
+    startTitle:'パンチャー', startSub:'カオスを作れ', yourNick:'ニックネーム',
+    chooseWidth:'フィールド幅', play:'プレイ', orEnter:'または入力...',
+    nickInvalid:'無効なニック', nickOk:'✓', newRecord:'🎉 新記録!', noRecord:'ベスト維持'
   },
   de: {
     title1:'LO', title2:'CHER', subtitle:'schaffe Chaos',
@@ -488,11 +599,13 @@ const LANG = {
     gameover:'SPIEL VORBEI', totalLabel:'GESAMT', restart:'NEUSTART',
     score:'Punkte', penalty:'Strafen', pieces:'Teile', total:'Gesamt',
     goScore:'Punkte', goPenalty:'Strafen', goPieces:'Teile',
-    scoring:'Punkte', submit:'SENDEN', nickPh:'Nick',
+    scoring:'Punkte',
     s1:'1 Loch → ×5', s2:'2 Löcher → ×3', s3:'3 Löcher → ×2', s4:'4+ → ×1', s5:'0 Löcher → −50 💥',
-    paused:'PAUSE', lbTitle:'🏆 TOP DER WOCHE', lbEmpty:'Noch keine Ergebnisse',
+    paused:'PAUSE', lbTitle:'🏆 TOP DER WOCHE', lbEmpty:'Noch keine Ergebnisse', lbWidth:'Breite',
     lbOffline:'Firebase nicht konfiguriert', lbLocal:'Lokale Ergebnisse',
-    submitted:'Gesendet!', submitFail:'Fehler, lokal gespeichert'
+    startTitle:'LOCHER', startSub:'schaffe Chaos', yourNick:'Dein Nickname',
+    chooseWidth:'Feldbreite', play:'SPIELEN', orEnter:'Oder eingeben...',
+    nickInvalid:'Ungültiger Nick', nickOk:'✓', newRecord:'🎉 NEUER REKORD!', noRecord:'Dein Bestes bleibt'
   },
   fr: {
     title1:'PER', title2:'FO', subtitle:'crée le chaos',
@@ -501,15 +614,18 @@ const LANG = {
     gameover:'PARTIE TERMINÉE', totalLabel:'TOTAL', restart:'REJOUER',
     score:'Points', penalty:'Pénalité', pieces:'Pièces', total:'Total',
     goScore:'Points', goPenalty:'Pénalité', goPieces:'Pièces',
-    scoring:'Points', submit:'ENVOYER', nickPh:'Pseudo',
+    scoring:'Points',
     s1:'1 trou → ×5', s2:'2 trous → ×3', s3:'3 trous → ×2', s4:'4+ → ×1', s5:'0 trous → −50 💥',
-    paused:'PAUSE', lbTitle:'🏆 TOP DE LA SEMAINE', lbEmpty:'Pas encore de scores',
+    paused:'PAUSE', lbTitle:'🏆 TOP DE LA SEMAINE', lbEmpty:'Pas encore de scores', lbWidth:'Largeur',
     lbOffline:'Firebase non configuré', lbLocal:'Scores locaux',
-    submitted:'Envoyé!', submitFail:'Erreur, sauvé localement'
+    startTitle:'PERFO', startSub:'crée le chaos', yourNick:'Ton pseudo',
+    chooseWidth:'Largeur du terrain', play:'JOUER', orEnter:'Ou entre le tien...',
+    nickInvalid:'Pseudo invalide', nickOk:'✓', newRecord:'🎉 NOUVEAU RECORD!', noRecord:'Ton meilleur reste'
   }
 };
 
 let currentLang = 'ru';
+let currentNick = '';
 
 // ===== NICK GENERATOR =====
 const NICK_WORDS = {
@@ -534,15 +650,34 @@ const NICK_WORDS = {
     noun: ['Perfo','Maître','Ninja','Héros','Mage','Fantôme','Tempête','Éclair','Faucon','Loup','Tigre','Phénix','Dragon','Chevalier','Pirate','Robot','Guerrier','Gamer','Roi','Légende','Panda','Koala','Paresseux','Loutre','Pingouin','Lama','Alpaga','Corgi','Shiba','Doge','Patate','Gaufre','Taco','Burrito','Nouille','Ravioli','Cookie','Muffin','Cupcake','Donut','Bretzel','Cornichon','Nugget','Banane','Noix','Mangue','Kiwi','Avocat','Tofu','Sushi','Ramen','Boba','Fromage','Bacon','Toast','Crêpe','Wombat','Ornithorynque','Narval','Morse','Dauphin','Poulpe','Calamar','Crabe','Homard','Crevette','Méduse','Étoile','Tortue','Gecko','Iguane','Cobra','Vipère','Faucon','Aigle','Hibou','Corbeau','Corneille','Moineau','Perroquet','Toucan','Pélican','Flamant','Cygne','Oie','Canard','Poulet','Coq','Dinde','Élan','Cerf','Ours','Blaireau','Castor','Écureuil','Hamster','Souris','Lapin','Chat']
   }
 };
+
 function generateNick() {
   const words = NICK_WORDS[currentLang] || NICK_WORDS.en;
   const adj = words.adj[Math.floor(Math.random() * words.adj.length)];
   const noun = words.noun[Math.floor(Math.random() * words.noun.length)];
   currentNick = adj + noun;
-  document.getElementById('nick-display').textContent = currentNick;
   return currentNick;
 }
 
+function updateNickDisplay() {
+  document.getElementById('nick-display-start').textContent = currentNick;
+}
+
+// Validate nick against all language dictionaries
+function isValidNick(nick) {
+  for (const lang in NICK_WORDS) {
+    const words = NICK_WORDS[lang];
+    for (const adj of words.adj) {
+      if (nick.startsWith(adj)) {
+        const rest = nick.substring(adj.length);
+        if (words.noun.includes(rest)) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
 
 function applyLang(lang) {
   currentLang = lang;
@@ -552,7 +687,6 @@ function applyLang(lang) {
   document.getElementById('t-subtitle').textContent = L.subtitle;
   document.getElementById('t-next').textContent = L.next;
   document.getElementById('t-lang').textContent = L.lang;
-  document.getElementById('t-width').textContent = L.width;
   document.getElementById('t-level').textContent = L.level;
   document.getElementById('t-move').textContent = L.move;
   document.getElementById('t-rotate').textContent = L.rotate;
@@ -576,8 +710,16 @@ function applyLang(lang) {
   document.getElementById('t-s4').textContent = L.s4;
   document.getElementById('t-s5').textContent = L.s5;
   document.getElementById('t-paused').textContent = L.paused;
-  document.getElementById('t-submit').textContent = L.submit;
   document.getElementById('t-lb-title').textContent = L.lbTitle;
+  
+  // Start screen
+  document.getElementById('t-start-title').textContent = L.startTitle;
+  document.getElementById('t-start-sub').textContent = L.startSub;
+  document.getElementById('t-your-nick').textContent = L.yourNick;
+  document.getElementById('t-choose-width').textContent = L.chooseWidth;
+  document.getElementById('start-btn').textContent = L.play;
+  document.getElementById('nick-input').placeholder = L.orEnter;
+  
   document.querySelectorAll('.lang-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.lang === lang);
   });
@@ -587,12 +729,13 @@ function applyLang(lang) {
   document.getElementById('title-2').style.fontFamily = isJa ? "'Noto Sans JP','Orbitron',sans-serif" : "'Orbitron',sans-serif";
   document.getElementById('t-gameover').style.fontFamily = isJa ? "'Noto Sans JP','Orbitron',sans-serif" : "'Orbitron',sans-serif";
   document.getElementById('t-paused').style.fontFamily = isJa ? "'Noto Sans JP','Orbitron',sans-serif" : "'Orbitron',sans-serif";
+  document.getElementById('t-start-title').style.fontFamily = isJa ? "'Noto Sans JP','Orbitron',sans-serif" : "'Orbitron',sans-serif";
 
-  loadLeaderboard();
+  loadLeaderboard(COLS);
 }
 
 // ===== GAME ENGINE =====
-const ROWS=20; let COLS=7; const CELL=28;
+const ROWS=20; let COLS=7; const CELL=28; const MAX_COLS=8;
 
 const SHAPES={
   I:[[0,0],[1,0],[2,0],[3,0]], O:[[0,0],[1,0],[0,1],[1,1]],
@@ -606,7 +749,7 @@ const LIGHT={I:'#55ccdd',O:'#ddaa33',T:'#aa66cc',S:'#44aa66',Z:'#dd5566',L:'#ee8
 
 let grid=[],currentPiece=null,nextPieceType=null;
 let score=0,penalties=0,piecesPlaced=0,level=1;
-let gameOver=false,paused=false;
+let gameOver=false,paused=false,gameStarted=false;
 let dropInterval=800,lastDrop=0,animFrameId=null;
 
 const canvas=document.getElementById('game-canvas');
@@ -615,7 +758,8 @@ const nextCanvas=document.getElementById('next-piece-canvas');
 const nextCtx=nextCanvas.getContext('2d');
 
 function initGrid(){grid=[];for(let r=0;r<ROWS;r++)grid.push(new Array(COLS).fill(null));}
-function resizeCanvas(){canvas.width=COLS*CELL;canvas.height=ROWS*CELL;}
+function resizeCanvas(){canvas.width=MAX_COLS*CELL;canvas.height=ROWS*CELL;}
+function getOffsetX(){return Math.floor((MAX_COLS-COLS)*CELL/2);}
 function randomType(){const t=Object.keys(SHAPES);return t[Math.floor(Math.random()*t.length)];}
 function createPiece(type){
   const cells=SHAPES[type].map(c=>[...c]);
@@ -634,12 +778,12 @@ function rotatePiece(p){
 }
 function canMove(p,dx,dy){return p.cells.every(([x,y])=>{const nx=x+dx,ny=y+dy;return nx>=0&&nx<COLS&&ny>=0&&ny<ROWS&&!grid[ny][nx];});}
 function movePiece(dx,dy){
-  if(!currentPiece||gameOver||paused)return false;
+  if(!currentPiece||gameOver||paused||!gameStarted)return false;
   if(canMove(currentPiece,dx,dy)){currentPiece.cells=currentPiece.cells.map(([x,y])=>[x+dx,y+dy]);return true;}
   return false;
 }
 function hardDrop(){
-  if(!currentPiece||gameOver||paused)return;
+  if(!currentPiece||gameOver||paused||!gameStarted)return;
   while(canMove(currentPiece,0,1))currentPiece.cells=currentPiece.cells.map(([x,y])=>[x,y+1]);
   lockPiece();
 }
@@ -648,7 +792,7 @@ function getGhost(){
   let dy=0;while(canMove(currentPiece,0,dy+1))dy++;
   return currentPiece.cells.map(([x,y])=>[x,y+dy]);
 }
-function rowInfo(r){let f=0;for(let c=0;c<COLS;c++)if(grid[r][c])f++;return{filled:f,holes:COLS-f};}
+function rowInfo(r){if(!grid[r])return{filled:0,holes:COLS};let f=0;for(let c=0;c<COLS;c++)if(grid[r][c])f++;return{filled:f,holes:COLS-f};}
 function isSealed(r){
   for(let c=0;c<COLS;c++){
     if(!grid[r][c]){let s=false;for(let a=0;a<r;a++){if(grid[a][c]){s=true;break;}}if(!s)return false;}
@@ -680,26 +824,28 @@ function spawnPiece(){
 }
 
 function draw(){
-  const W=COLS*CELL,H=ROWS*CELL;
-  ctx.clearRect(0,0,W,H);ctx.fillStyle='#f0f0f4';ctx.fillRect(0,0,W,H);
+  const W=COLS*CELL,H=ROWS*CELL,OX=getOffsetX();
+  ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#e8e8ec';ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle='#f0f0f4';ctx.fillRect(OX,0,W,H);
   ctx.strokeStyle='#ccccd4';ctx.lineWidth=1;
-  for(let r=0;r<=ROWS;r++){ctx.beginPath();ctx.moveTo(0,r*CELL+.5);ctx.lineTo(W,r*CELL+.5);ctx.stroke();}
-  for(let c=0;c<=COLS;c++){ctx.beginPath();ctx.moveTo(c*CELL+.5,0);ctx.lineTo(c*CELL+.5,H);ctx.stroke();}
-  for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)if(grid[r][c])drawBlock(ctx,c,r,grid[r][c]);
+  for(let r=0;r<=ROWS;r++){ctx.beginPath();ctx.moveTo(OX,r*CELL+.5);ctx.lineTo(OX+W,r*CELL+.5);ctx.stroke();}
+  for(let c=0;c<=COLS;c++){ctx.beginPath();ctx.moveTo(OX+c*CELL+.5,0);ctx.lineTo(OX+c*CELL+.5,H);ctx.stroke();}
+  if(!grid.length)return;
+  for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)if(grid[r]&&grid[r][c])drawBlock(ctx,c,r,grid[r][c],OX);
   for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){
-    if(!grid[r][c]){let sealed=false;for(let a=0;a<r;a++){if(grid[a][c]){sealed=true;break;}}
-    if(sealed){ctx.fillStyle='rgba(26,138,74,.1)';ctx.fillRect(c*CELL+1,r*CELL+1,CELL-2,CELL-2);ctx.fillStyle='rgba(26,138,74,.45)';const mx=c*CELL+CELL/2,my=r*CELL+CELL/2;ctx.beginPath();ctx.moveTo(mx,my-4);ctx.lineTo(mx+4,my);ctx.lineTo(mx,my+4);ctx.lineTo(mx-4,my);ctx.closePath();ctx.fill();}}
+    if(!grid[r]||!grid[r][c]){let sealed=false;for(let a=0;a<r;a++){if(grid[a]&&grid[a][c]){sealed=true;break;}}
+    if(sealed){ctx.fillStyle='rgba(26,138,74,.1)';ctx.fillRect(OX+c*CELL+1,r*CELL+1,CELL-2,CELL-2);ctx.fillStyle='rgba(26,138,74,.45)';const mx=OX+c*CELL+CELL/2,my=r*CELL+CELL/2;ctx.beginPath();ctx.moveTo(mx,my-4);ctx.lineTo(mx+4,my);ctx.lineTo(mx,my+4);ctx.lineTo(mx-4,my);ctx.closePath();ctx.fill();}}
   }
   for(let r=0;r<ROWS;r++){const{filled,holes}=rowInfo(r);if(filled===0)continue;
-    if(holes===0){ctx.fillStyle='rgba(196,24,48,.12)';ctx.fillRect(0,r*CELL,W,CELL);}
-    else if(holes>=1&&holes<=3&&isSealed(r)){ctx.fillStyle=holes===1?'rgba(26,138,74,.7)':holes===2?'rgba(46,139,87,.5)':'rgba(90,154,58,.4)';ctx.fillRect(W-4,r*CELL+6,3,CELL-12);}
+    if(holes===0){ctx.fillStyle='rgba(196,24,48,.12)';ctx.fillRect(OX,r*CELL,W,CELL);}
+    else if(holes>=1&&holes<=3&&isSealed(r)){ctx.fillStyle=holes===1?'rgba(26,138,74,.7)':holes===2?'rgba(46,139,87,.5)':'rgba(90,154,58,.4)';ctx.fillRect(OX+W-4,r*CELL+6,3,CELL-12);}
   }
-  if(currentPiece&&!gameOver&&!paused){const gh=getGhost();if(gh)for(const[x,y]of gh){ctx.strokeStyle='rgba(0,0,0,.18)';ctx.lineWidth=1.5;ctx.setLineDash([3,3]);ctx.strokeRect(x*CELL+3,y*CELL+3,CELL-6,CELL-6);ctx.setLineDash([]);}}
-  if(currentPiece&&!gameOver&&!paused)for(const[x,y]of currentPiece.cells)if(y>=0)drawBlock(ctx,x,y,currentPiece.type);
+  if(currentPiece&&!gameOver&&!paused&&gameStarted){const gh=getGhost();if(gh)for(const[x,y]of gh){ctx.strokeStyle='rgba(0,0,0,.18)';ctx.lineWidth=1.5;ctx.setLineDash([3,3]);ctx.strokeRect(OX+x*CELL+3,y*CELL+3,CELL-6,CELL-6);ctx.setLineDash([]);}}
+  if(currentPiece&&!gameOver&&!paused&&gameStarted)for(const[x,y]of currentPiece.cells)if(y>=0)drawBlock(ctx,x,y,currentPiece.type,OX);
 }
 
-function drawBlock(c,x,y,type){
-  const px=x*CELL,py=y*CELL;
+function drawBlock(c,x,y,type,ox=0){
+  const px=ox+x*CELL,py=y*CELL;
   c.fillStyle=COLORS[type];c.fillRect(px+2,py+2,CELL-4,CELL-4);
   c.strokeStyle=DARK[type];c.lineWidth=1.5;c.strokeRect(px+2.5,py+2.5,CELL-5,CELL-5);
   c.fillStyle=LIGHT[type];c.fillRect(px+3,py+3,CELL-6,3);c.fillRect(px+3,py+3,3,CELL-6);
@@ -730,7 +876,8 @@ function showPopup(row,text,isPenalty){
 function showFlash(row,isPenalty){
   const f=document.createElement('div');f.className='row-flash '+(isPenalty?'penalty-flash':'good-flash');
   const cr=canvas.getBoundingClientRect(),wr=canvas.parentElement.getBoundingClientRect();
-  f.style.left=(cr.left-wr.left)+'px';f.style.top=(cr.top-wr.top+row*CELL)+'px';
+  const OX=getOffsetX();
+  f.style.left=(cr.left-wr.left+OX)+'px';f.style.top=(cr.top-wr.top+row*CELL)+'px';
   f.style.width=(COLS*CELL)+'px';f.style.height=CELL+'px';
   canvas.parentElement.appendChild(f);setTimeout(()=>f.remove(),800);
 }
@@ -743,25 +890,76 @@ function updateUI(){
   document.getElementById('level-display').textContent=level;
 }
 
-function endGame(){
+function shareResultDyrokol(){
+  const total=document.getElementById('go-total').textContent;
+  const w=COLS||7;
+  const t='🕳 HolePuncher w'+w+'\n🏆 Score: '+total+'\nhttps://constrik.itch.io/holepuncher';
+  try{const ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.left='-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+  const b=event.target;b.textContent='✓ Copied!';setTimeout(()=>b.textContent='📤 Share',2000);}catch(e){prompt('Copy:',t);}
+}
+
+async function endGame(){
   gameOver=true;
+  gameStarted=false;
   const total=Math.max(0,score-penalties);
+  
+  document.getElementById('go-nick').textContent = currentNick;
   document.getElementById('go-total').textContent=total;
   document.getElementById('go-score').textContent=score;
   document.getElementById('go-penalty').textContent=penalties;
   document.getElementById('go-pieces').textContent=piecesPlaced;
-  document.getElementById('submit-status').textContent='';
-  document.getElementById('submit-score-btn').disabled=false;
-
-  // Generate new nick
-  generateNick();
-
+  
+  const L = LANG[currentLang];
+  
+  // Submit and check for record
+  const localResult = saveLocalScore(currentNick, total, COLS);
+  let isNewRecord = localResult.isNewRecord;
+  
+  if (firebaseOk) {
+    const fbResult = await submitScore(currentNick, total, COLS);
+    if (fbResult.success) {
+      isNewRecord = fbResult.isNewRecord;
+    }
+  }
+  
+  const recordEl = document.getElementById('go-record');
+  if (isNewRecord) {
+    recordEl.textContent = L.newRecord || '🎉 NEW RECORD!';
+    recordEl.className = 'go-record new-record';
+  } else {
+    recordEl.textContent = L.noRecord || 'Your best stays';
+    recordEl.className = 'go-record';
+  }
+  
   document.getElementById('game-over').classList.add('show');
+  loadLeaderboard(COLS);
+}
+
+function showStartScreen() {
+  document.getElementById('start-screen').classList.remove('hidden');
+  document.getElementById('game-over').classList.remove('show');
+  
+  // Load saved nick or generate new
+  const savedNick = localStorage.getItem('dyrokol_nick');
+  if (savedNick && isValidNick(savedNick)) {
+    currentNick = savedNick;
+  } else {
+    generateNick();
+  }
+  updateNickDisplay();
+  
+  resizeCanvas();
+  draw();
 }
 
 function startGame(){
+  // Save nick
+  localStorage.setItem('dyrokol_nick', currentNick);
+  
+  document.getElementById('start-screen').classList.add('hidden');
+  
   initGrid();score=0;penalties=0;piecesPlaced=0;level=1;
-  dropInterval=800;gameOver=false;paused=false;
+  dropInterval=800;gameOver=false;paused=false;gameStarted=true;
   currentPiece=null;nextPieceType=randomType();
   document.getElementById('game-over').classList.remove('show');
   document.getElementById('pause-overlay').classList.remove('show');
@@ -773,14 +971,18 @@ function startGame(){
 
 function gameLoop(time=0){
   animFrameId=requestAnimationFrame(gameLoop);
-  if(gameOver||paused){draw();return;}
+  if(gameOver||paused||!gameStarted){draw();return;}
   if(time-lastDrop>dropInterval){if(!movePiece(0,1))lockPiece();lastDrop=time;}
   draw();
 }
 
 // ===== INPUT =====
 document.addEventListener('keydown',(e)=>{
-  if(gameOver){if(e.code==='Space'||e.code==='Enter'){e.preventDefault();startGame();}return;}
+  if(!gameStarted && !document.getElementById('start-screen').classList.contains('hidden')){
+    if(e.code==='Space'||e.code==='Enter'){e.preventDefault();startGame();}
+    return;
+  }
+  if(gameOver){if(e.code==='Space'||e.code==='Enter'){e.preventDefault();showStartScreen();}return;}
   switch(e.code){
     case'ArrowLeft':e.preventDefault();movePiece(-1,0);break;
     case'ArrowRight':e.preventDefault();movePiece(1,0);break;
@@ -791,11 +993,16 @@ document.addEventListener('keydown',(e)=>{
   }
 });
 
-document.querySelectorAll('.width-btn').forEach(btn=>{
+// Width selector on start screen
+document.querySelectorAll('.width-btn-start').forEach(btn=>{
   btn.addEventListener('click',()=>{
-    const w=parseInt(btn.dataset.w);if(w===COLS)return;
-    document.querySelectorAll('.width-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');COLS=w;startGame();
+    const w=parseInt(btn.dataset.w);
+    document.querySelectorAll('.width-btn-start').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    COLS=w;
+    resizeCanvas();
+    draw();
+    loadLeaderboard(w);
   });
 });
 
@@ -803,37 +1010,42 @@ document.querySelectorAll('.lang-btn').forEach(btn=>{
   btn.addEventListener('click',()=>{applyLang(btn.dataset.lang);});
 });
 
-// Submit score
-document.getElementById('submit-score-btn').addEventListener('click', async ()=>{
-  const nick = currentNick;
-  if (!nick) { generateNick(); return; }
-
-  const btn = document.getElementById('submit-score-btn');
-  btn.disabled = true;
-
-  const total = Math.max(0, score - penalties);
-
-  // Always save locally
-  saveLocalScore(nick, total, COLS);
-
-  const L = LANG[currentLang];
-
-  if (firebaseOk) {
-    const ok = await submitScore(nick, total, COLS);
-    document.getElementById('submit-status').textContent = ok ? (L.submitted||'✓') : (L.submitFail||'✗');
-  } else {
-    document.getElementById('submit-status').textContent = L.submitted||'✓';
-  }
-
-  loadLeaderboard();
-});
-
-// Reroll nick
-document.getElementById('nick-reroll').addEventListener('click', ()=>{
+// Nick reroll
+document.getElementById('nick-reroll-start').addEventListener('click', ()=>{
   generateNick();
+  updateNickDisplay();
+  document.getElementById('nick-status').textContent = '';
 });
 
-document.getElementById('restart-btn').addEventListener('click',startGame);
+// Nick input check
+document.getElementById('nick-check-btn').addEventListener('click', ()=>{
+  const input = document.getElementById('nick-input').value.trim();
+  const L = LANG[currentLang];
+  if (input && isValidNick(input)) {
+    currentNick = input;
+    updateNickDisplay();
+    document.getElementById('nick-status').textContent = L.nickOk || '✓';
+    document.getElementById('nick-status').style.color = 'var(--good)';
+    document.getElementById('nick-input').value = '';
+  } else {
+    document.getElementById('nick-status').textContent = L.nickInvalid || 'Invalid';
+    document.getElementById('nick-status').style.color = 'var(--accent)';
+  }
+});
+
+document.getElementById('nick-input').addEventListener('keydown', (e)=>{
+  if (e.code === 'Enter') {
+    document.getElementById('nick-check-btn').click();
+  }
+});
+
+// Start button
+document.getElementById('start-btn').addEventListener('click', startGame);
+
+// Restart goes to start screen
+document.getElementById('restart-btn').addEventListener('click', showStartScreen);
+
+// Mobile controls
 document.getElementById('btn-left')?.addEventListener('touchstart',(e)=>{e.preventDefault();movePiece(-1,0);});
 document.getElementById('btn-right')?.addEventListener('touchstart',(e)=>{e.preventDefault();movePiece(1,0);});
 document.getElementById('btn-down')?.addEventListener('touchstart',(e)=>{e.preventDefault();movePiece(0,1);});
@@ -842,7 +1054,8 @@ document.getElementById('btn-drop')?.addEventListener('touchstart',(e)=>{e.preve
 
 // ===== INIT =====
 applyLang('ru');
-startGame();
+showStartScreen();
 </script>
+<div style="text-align:center;font-size:.55rem;color:rgba(255,255,255,0.3);padding:8px;">HolePuncher v2.0 · <a href="https://constrik.itch.io" style="color:rgba(255,255,255,0.3);">constrik</a></div>
 </body>
 </html>
